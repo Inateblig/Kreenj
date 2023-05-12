@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://chit3l3r2smxe"]
+
+[ext_resource type="Script" path="res://src/scripts/kree.gd" id="1_xlub6"]
+[ext_resource type="Script" path="res://src/scripts/handL.gd" id="2_yassh"]
+[ext_resource type="Script" path="res://src/scripts/handR.gd" id="3_6v16m"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h3fyu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yh7hr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_eq4mo"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_bui0y"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8yvhu"]
+radius = 0.1
+height = 0.2
+
+[node name="kree" type="CharacterBody3D"]
+script = ExtResource("1_xlub6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_h3fyu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("BoxMesh_yh7hr")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="SubViewportContainerL" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewportL" type="SubViewport" parent="HBoxContainer/SubViewportContainerL"]
+handle_input_locally = false
+size = Vector2i(480, 1080)
+render_target_update_mode = 4
+
+[node name="handL" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainerL/SubViewportL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("SphereMesh_eq4mo")
+skeleton = NodePath("")
+script = ExtResource("2_yassh")
+
+[node name="Camera3DL" type="Camera3D" parent="HBoxContainer/SubViewportContainerL/SubViewportL/handL"]
+fov = 100.0
+
+[node name="SubViewportContainerMain" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewportMain" type="SubViewport" parent="HBoxContainer/SubViewportContainerMain"]
+handle_input_locally = false
+size = Vector2i(957, 1080)
+render_target_update_mode = 4
+
+[node name="head" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainerMain/SubViewportMain"]
+mesh = SubResource("SphereMesh_bui0y")
+skeleton = NodePath("../../../..")
+
+[node name="Camera3DMain" type="Camera3D" parent="HBoxContainer/SubViewportContainerMain/SubViewportMain/head"]
+current = true
+fov = 100.0
+
+[node name="SubViewportContainerR" type="SubViewportContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewportR" type="SubViewport" parent="HBoxContainer/SubViewportContainerR"]
+handle_input_locally = false
+size = Vector2i(480, 1080)
+render_target_update_mode = 4
+
+[node name="rightR" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainerR/SubViewportR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("SphereMesh_8yvhu")
+skeleton = NodePath("")
+script = ExtResource("3_6v16m")
+
+[node name="Camera3DR" type="Camera3D" parent="HBoxContainer/SubViewportContainerR/SubViewportR/rightR"]
+fov = 100.0

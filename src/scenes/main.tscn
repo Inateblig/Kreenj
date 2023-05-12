@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://d1af15328dryv"]
+
+[ext_resource type="Script" path="res://src/scripts/main.gd" id="1_12qpu"]
+[ext_resource type="PackedScene" uid="uid://chit3l3r2smxe" path="res://src/scenes/kree.tscn" id="1_rsgar"]
+[ext_resource type="Script" path="res://src/scripts/Window.gd" id="2_cbbl7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nkata"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_j07x2"]
+sky_material = SubResource("ProceduralSkyMaterial_nkata")
+
+[sub_resource type="Environment" id="Environment_vrqlp"]
+background_mode = 2
+sky = SubResource("Sky_j07x2")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="main" type="Node"]
+script = ExtResource("1_12qpu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 8, 0)
+light_color = Color(0.831373, 0.831373, 0.831373, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vrqlp")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(20, 1, 20)
+
+[node name="Window" type="Window" parent="."]
+title = "Kreenj -- Left Hand"
+size = Vector2i(340, 80)
+unresizable = true
+min_size = Vector2i(340, 80)
+script = ExtResource("2_cbbl7")
+
+[node name="Button" type="Button" parent="Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Secondary Mouse (Left Hand) -- goes here!"
+
+[node name="kree" parent="." instance=ExtResource("1_rsgar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.5
+offset_top = -15.5
+offset_right = 188.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Main Mouse (Right Hand) -- goes here -- Tap me!"
+
+[connection signal="pressed" from="Window/Button" to="Window" method="_on_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
